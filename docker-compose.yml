@@ -1,0 +1,26 @@
+# Project name: "pipeline"
+# This becomes a prefix for all Docker resources created by compose:
+#   - Network:   pipeline_default        (other containers join this to talk to services here)
+#   - Volume:    pipeline_ny_taxi_postgres_data
+#   - Container: pipeline-pgdatabase-1
+name: pipeline
+
+services:
+  # Service name: "pgdatabase"
+  # On the pipeline_default network, this name acts as the hostname.
+  # So any container on the same network reaches Postgres at host=pgdatabase, port=5432.
+  # Example: --pg-host=pgdatabase
+  pgdatabase:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "ny_taxi"
+    volumes:
+      - "ny_taxi_postgres_data:/var/lib/postgresql"
+    ports:
+      - "5432:5432"  # host:container — exposes Postgres to your local machine too
+
+
+volumes:
+  ny_taxi_postgres_data:
