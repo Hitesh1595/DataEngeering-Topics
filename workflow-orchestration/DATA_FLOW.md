@@ -2,6 +2,8 @@
 
 ## Pipeline 1 — PostgreSQL (flows 04 & 05)
 
+~/.config/gcloud/application_default_credentials.json
+
 ```
 GitHub Releases (.csv.gz)
         │  wget + gunzip
