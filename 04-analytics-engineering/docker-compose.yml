@@ -1,0 +1,32 @@
+services:
+  duckdb:
+    image: duckdb/duckdb
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    network_mode: host # for the duckdb ui (needs Docker Desktop host networking enabled on Mac)
+    command: duckdb -ui
+
+  dbt:
+    build:
+      context: .
+      dockerfile: dockerfile.dbt
+      target: dbt-third-party # name of the build stage from the Dockerfile you want to build and run.
+      args:
+        dbt_third_party: "dbt-duckdb"  # or whichever plugin you need
+    image: my-dbt:latest
+    volumes:
+      - .:/workspace
+      - ./dbt:/usr/app/dbt
+      - ~/.dbt:/root/.dbt
+    working_dir: /usr/app/dbt/
+    stdin_open: true
+    tty: true
+    command: sleep infinity
+    ports:
+      - "8081:8080" # for generated docs ui
+    depends_on:
+      - duckdb
+  
