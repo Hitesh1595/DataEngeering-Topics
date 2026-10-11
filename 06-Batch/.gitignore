@@ -1,1 +1,5 @@
 .ipynb_checkpoints/
+work/data/*.csv
+work/data/*.parquet
+work/notebooks/*.crc
+work/notebooks/fhvhv/2021/01
